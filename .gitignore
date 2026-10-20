@@ -1,0 +1,25 @@
+# Secrets - never commit
+.env
+*.pem
+*.key
+
+# Python
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+
+# Logs and generated files
+*.log
+logs/
+instance/
+*.sqlite
+*.db
+.pytest_cache/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

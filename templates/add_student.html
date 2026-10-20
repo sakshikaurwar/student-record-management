@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Add student{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Add student</h1></div>
+{% with submit_label = 'Add student' %}
+  {% include "_student_form.html" %}
+{% endwith %}
+{% endblock %}

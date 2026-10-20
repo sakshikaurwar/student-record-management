@@ -1,0 +1,48 @@
+{# Shared by add_student.html and edit_student.html #}
+<form method="post" novalidate class="panel form-panel">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label for="roll_number" class="form-label">Roll number</label>
+      <input type="text" class="form-control" id="roll_number" name="roll_number" maxlength="30"
+             value="{{ form.roll_number or '' }}" required>
+    </div>
+    <div class="col-md-6">
+      <label for="full_name" class="form-label">Full name</label>
+      <input type="text" class="form-control" id="full_name" name="full_name" maxlength="100"
+             value="{{ form.full_name or '' }}" required>
+    </div>
+    <div class="col-md-6">
+      <label for="email" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="email" name="email" maxlength="150"
+             value="{{ form.email or '' }}" required>
+    </div>
+    <div class="col-md-6">
+      <label for="phone" class="form-label">Phone number</label>
+      <input type="tel" class="form-control" id="phone" name="phone" maxlength="20"
+             value="{{ form.phone or '' }}" required>
+    </div>
+    <div class="col-md-8">
+      <label for="department" class="form-label">Department</label>
+      <select class="form-select" id="department" name="department" required>
+        <option value="">Choose a department</option>
+        {% for d in departments %}
+        <option value="{{ d }}" {{ 'selected' if form.department == d }}>{{ d }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="year_of_study" class="form-label">Year of study</label>
+      <select class="form-select" id="year_of_study" name="year_of_study" required>
+        <option value="">Choose a year</option>
+        {% for y in years %}
+        <option value="{{ y }}" {{ 'selected' if form.year_of_study|string == y|string }}>Year {{ y }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">{{ submit_label }}</button>
+    <a href="{{ url_for('students') }}" class="btn btn-outline-secondary">Cancel</a>
+  </div>
+</form>

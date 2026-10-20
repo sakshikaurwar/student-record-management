@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Edit student{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Edit student</h1></div>
+{% with submit_label = 'Save changes' %}
+  {% include "_student_form.html" %}
+{% endwith %}
+{% endblock %}

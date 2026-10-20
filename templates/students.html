@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Students</h1>
+  <a class="btn btn-primary" href="{{ url_for('add_student') }}">Add student</a>
+</div>
+
+<form class="panel search-panel" action="{{ url_for('students') }}" method="get" role="search">
+  <label for="q" class="form-label">Search by name, roll number or department</label>
+  <div class="input-group">
+    <input type="search" class="form-control" id="q" name="q" value="{{ q }}" maxlength="100"
+           placeholder="e.g. Aarav, IT3001, Information Technology">
+    <button class="btn btn-primary" type="submit">Search</button>
+    {% if q %}<a class="btn btn-outline-secondary" href="{{ url_for('students') }}">Clear</a>{% endif %}
+  </div>
+</form>
+
+<div class="panel mt-4">
+  {% if q %}
+    <p class="result-note">{{ students|length }} result{{ '' if students|length == 1 else 's' }} for &ldquo;{{ q }}&rdquo;</p>
+  {% endif %}
+
+  {% if students %}
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
+        <tr><th>Roll no.</th><th>Name</th><th>Email</th><th>Department</th><th>Year</th><th>Phone</th><th class="text-end">Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for s in students %}
+        <tr>
+          <td class="fw-semibold">{{ s.roll_number }}</td>
+          <td>{{ s.full_name }}</td>
+          <td>{{ s.email }}</td>
+          <td>{{ s.department }}</td>
+          <td>{{ s.year_of_study }}</td>
+          <td>{{ s.phone }}</td>
+          <td class="text-end text-nowrap">
+            <a class="btn btn-sm btn-outline-primary" href="{{ url_for('edit_student', student_id=s.id) }}">Edit</a>
+            <form class="d-inline" method="post" action="{{ url_for('delete_student', student_id=s.id) }}"
+                  onsubmit="return confirm({{ ('Delete ' ~ s.full_name ~ ' (' ~ s.roll_number ~ ')? This cannot be undone.') | tojson }});">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    {% if q %}
+      <h2>No students match your search</h2>
+      <p>Try a different name, roll number or department.</p>
+      <a class="btn btn-outline-secondary" href="{{ url_for('students') }}">Show all students</a>
+    {% else %}
+      <h2>No student records yet</h2>
+      <p>Add your first student to see them listed here.</p>
+      <a class="btn btn-primary" href="{{ url_for('add_student') }}">Add student</a>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
